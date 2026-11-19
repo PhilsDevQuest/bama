@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- App Sandbox entitlements for __APP_NAME__. Used by ./build.sh --sandbox and tools/appstore.sh.
+     Add only what the brief needs. Every extra entitlement needs a reason in App Review.
+     Recipes for each one: bama new-mac-app skill, app-store.md. -->
+<plist version="1.0"><dict>
+<key>com.apple.security.app-sandbox</key><true/>
+<!-- Files and folders the user picks in an open panel or drops on the window. -->
+<key>com.apple.security.files.user-selected.read-write</key><true/>
+<!-- Keep access to those folders after a restart (security-scoped bookmarks). -->
+<key>com.apple.security.files.bookmarks.app-scope</key><true/>
+<!-- Outgoing network (APIs, uploads, a local web server the app talks to). Uncomment when the brief says the app goes online.
+<key>com.apple.security.network.client</key><true/>
+-->
+</dict></plist>

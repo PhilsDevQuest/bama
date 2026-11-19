@@ -20,7 +20,10 @@ binary in a real `.app` bundle. An agent can read and edit every file.
   Package.swift          macOS 26, Swift 6.2 tools, main-actor default isolation
   Info.plist.in          bundle id, name, icon, minimum macOS
   Icon/AppIcon.icon      the app icon: Icon Composer file, JSON plus SVG layers
-  build.sh               swift build -> .app bundle -> codesign -> ~/Applications
+  build.sh               swift build -> .app bundle -> codesign -> ~/Applications (--sandbox: with App Sandbox)
+  AppStore/
+    App.entitlements     App Sandbox entitlements for the sandboxed and App Store builds
+    PrivacyInfo.xcprivacy  privacy manifest, copied into every build
   CLAUDE.md              build, check, and design rules for agents
   Sources/<AppName>/
     App.swift            window, menus, Settings, database location
@@ -38,6 +41,8 @@ binary in a real `.app` bundle. An agent can read and edit every file.
     make_icon.sh         Icon/AppIcon.icon -> Resources/Assets.car + AppIcon.icns (actool)
     icon_review.sh       renders every icon look into one PNG (ictool)
     icon_sheet.swift     joins the renders for icon_review.sh
+    sandbox-check.sh     sandboxed build, self-test in the container, agent CLI, then the normal build again
+    appstore.sh          universal binary, profile, distribution signing -> signed .pkg for App Store Connect
 ```
 
 ## Steps
@@ -81,9 +86,27 @@ binary in a real `.app` bundle. An agent can read and edit every file.
    tools/snap.sh                                                    # sample data, light and dark PNGs
    ```
 
-6. If `docs/BRIEF.md` exists, rename `Item` to the brief's main type and the
+6. If `docs/BRIEF.md` says **Distribution: Mac App Store**, read
+   [app-store.md](app-store.md) now and run the sandboxed check once:
+
+   ```bash
+   tools/sandbox-check.sh
+   ```
+
+   Turn on the entitlements the brief needs (network, folders) in
+   `AppStore/App.entitlements`. Check: it prints `PASS sandbox check`.
+
+7. If `docs/BRIEF.md` exists, rename `Item` to the brief's main type and the
    sidebar pages to the brief's pages. Nothing else: features go through
    `improve-loop`, one story at a time. Build, snapshot, commit.
+
+## App Store apps
+
+An app for the Mac App Store keeps this template. It builds and tests
+stories with `./build.sh` as usual, and checks the App Sandbox with
+`tools/sandbox-check.sh` at the end of every milestone. Data, folder
+access, network, the agent CLI, purchases, and release:
+[app-store.md](app-store.md).
 
 ## When to switch to an Xcode project
 
@@ -117,4 +140,5 @@ and the window updates live.
 - Concurrency errors: call the Skill tool with `swift-swiftui`.
 
 Done when the app opens from `~/Applications`, the snapshots show every
-page in light and dark, and the first commit exists.
+page in light and dark, the first commit exists, and for an App Store app
+`tools/sandbox-check.sh` prints `PASS sandbox check`.

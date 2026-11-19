@@ -1,12 +1,12 @@
 {
   "name": "bama",
-  "version": "1.1.1",
-  "description": "Build any Mac app: skills to research, clone, plan, scaffold, design, integrate, optimize, test, and ship native macOS apps with Swift and SwiftUI.",
+  "version": "1.1.1-appstore.1",
+  "description": "Build any Mac app: skills to research, clone, plan, scaffold, design, integrate, optimize, test, and ship native macOS apps with Swift and SwiftUI. Fork with a Mac App Store path: App Sandbox, privacy manifest, StoreKit, release.",
   "author": {
     "name": "Dave Ebbelaar",
     "url": "https://github.com/daveebbelaar"
   },
-  "repository": "https://github.com/daveebbelaar/bama",
+  "repository": "https://github.com/PhilsDevQuest/bama",
   "license": "MIT",
   "keywords": [
     "macos",
@@ -24,7 +24,8 @@
     "design-system",
     "grid",
     "design-kit",
-    "components"
+    "components",
+    "app-store"
   ],
   "skills": [
     "./skills/start/bama",

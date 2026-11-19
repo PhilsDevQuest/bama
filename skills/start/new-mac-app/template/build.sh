@@ -6,12 +6,20 @@
 # Usage: ./build.sh            release build, install
 #        ./build.sh --debug    debug build, install
 #        ./build.sh --open     install, then quit the running copy and open the new one
+#        ./build.sh --sandbox  sign with AppStore/App.entitlements (App Sandbox), as the App Store build runs
+#
+# Day to day, build without --sandbox: snapshot mode, the self-test and test
+# stores in /tmp need paths the sandbox blocks. tools/sandbox-check.sh runs the
+# sandboxed build. Data lives in different places in the two builds (see the
+# new-mac-app skill, app-store.md).
 set -euo pipefail
 here=${0:A:h}
 name="__APP_NAME__"
 scratch="$HOME/Library/Developer/$name/build"
 config=release
 [[ " $* " == *" --debug "* ]] && config=debug
+sandbox=0
+[[ " $* " == *" --sandbox "* ]] && sandbox=1
 
 # Sign with your Apple Development certificate when you have one (Xcode >
 # Settings > Accounts). Otherwise sign ad hoc, which is fine for your own Mac.
@@ -51,9 +59,16 @@ if [[ -d "$here/Icon/AppIcon.icon" ]]; then
   fi
   cp -X "$car" "$here/Resources/AppIcon.icns" "$app/Contents/Resources/"
 fi
+# The privacy manifest the App Store requires.
+[[ -f "$here/AppStore/PrivacyInfo.xcprivacy" ]] && cp -X "$here/AppStore/PrivacyInfo.xcprivacy" "$app/Contents/Resources/"
 xattr -cr "$app"
-codesign --force --sign "$identity" "$app" 2>&1 | grep -v "replacing existing signature" || true
-echo "installed $app (signed: ${identity})"
+sign_args=(--force --sign "$identity")
+if [[ "$sandbox" == 1 ]]; then
+  [[ -f "$here/AppStore/App.entitlements" ]] || { echo "no AppStore/App.entitlements"; exit 1; }
+  sign_args+=(--options runtime --entitlements "$here/AppStore/App.entitlements")
+fi
+codesign "${sign_args[@]}" "$app" 2>&1 | grep -v "replacing existing signature" || true
+echo "installed $app (signed: ${identity}, sandbox: $([[ $sandbox == 1 ]] && echo on || echo off))"
 
 if [[ " $* " == *" --open "* ]]; then
   osascript -e "quit app \"$name\"" 2>/dev/null || true

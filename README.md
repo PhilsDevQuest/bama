@@ -24,6 +24,29 @@ Swift and SwiftUI. Local data. No Xcode GUI.
 
 </div>
 
+## This fork: Mac App Store path
+
+Fork of [daveebbelaar/bama](https://github.com/daveebbelaar/bama) that adds
+a path for apps sold on the Mac App Store. Personal apps work as before.
+
+- `app-brief` asks about distribution and keeps first run, Settings, and
+  purchases in scope for App Store apps.
+- The template adds `AppStore/App.entitlements`, a privacy manifest,
+  `./build.sh --sandbox`, `tools/sandbox-check.sh`, and `tools/appstore.sh`
+  (signed `.pkg` for App Store Connect).
+- `new-mac-app/app-store.md`: data in the container, security-scoped
+  bookmarks, network, the agent CLI in the sandbox, StoreKit 2, release,
+  App Review.
+- `agent-cli`, `os-integrations`, `build-and-verify`, and `improve-loop`
+  point to the sandbox check.
+
+Install this fork instead of the original (remove the original first):
+
+```text
+/plugin marketplace add PhilsDevQuest/bama
+/plugin install bama@bama
+```
+
 ## Quick start
 
 ```bash

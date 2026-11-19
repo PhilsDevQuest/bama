@@ -52,6 +52,14 @@ A personal app has one user. Remove what exists only for other users:
 accounts, sharing, teams, sync servers, billing, onboarding, analytics. If
 the user wants data on two Macs, note "later: iCloud sync".
 
+An App Store app keeps what strangers need on day one: a first-run
+screen, empty states, Settings, and the purchase if it is paid. It still
+cuts accounts, sync servers, and analytics from version one. Outside
+services (cloud storage, social accounts, AI) are optional add-ons behind
+one interface each, so later ones plug in without changes. Version one
+ships at least one of them, or none. Rules: the new-mac-app skill,
+[app-store.md](../new-mac-app/app-store.md).
+
 Version one is one afternoon of agent time: one window, two to five main
 pages, one data model with two to four types. Smart lists that filter one
 model (Today, Upcoming, Someday) count as one page.
@@ -78,6 +86,9 @@ One sentence: what it is and who it is for.
 <sidebar window / menu bar extra / quick panel>, macOS 26 or later.
 Local data. Works offline. No accounts.
 
+## Distribution
+<personal> or <Mac App Store: App Sandbox, price model, languages, optional add-ons>
+
 ## System hooks
 <global shortcut, menu bar, Share menu, Shortcuts, CLI, or "none">
 
@@ -96,4 +107,5 @@ Local data. Works offline. No accounts.
 Call the Skill tool with `user-stories`, or with `new-mac-app` if the user
 wants to see a window first.
 
-Done when `docs/BRIEF.md` exists, fits on one page, and has every section.
+Done when `docs/BRIEF.md` exists, fits on one page, and has every
+section, including Distribution.

@@ -102,6 +102,10 @@ When the last story of a milestone is `done`, call the Skill tool with
 its top recommendation only if it is `Strong`, and leave the rest in the
 review file for the user.
 
+For an App Store app (`docs/BRIEF.md`, Distribution), run
+`tools/sandbox-check.sh` at the check-in too. A failure becomes the first
+story of the next milestone.
+
 When a story fixes a bug, add an entry to `docs/FIXLOG.md`: symptom,
 cause, fix, and a last line `Rule: <what to always or never do>`. The fix
 log outlives squashed history, and the check-in reads it.
@@ -117,4 +121,4 @@ morning and revert anything they do not like.
 
 Done when every story in the milestone is `done` or named in the report as
 blocked with a reason, each done story has its own commit, and the user
-has the report.
+has the report. An App Store app also passes `tools/sandbox-check.sh`.

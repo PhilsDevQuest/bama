@@ -32,6 +32,15 @@ of Optical Flow and Onyx.
   (`/tmp/x.store.sock`), so a test run starts its own copy of the app and
   never touches real data. `APP_AGENT_SOCKET` moves the socket alone.
 - A socket path must stay under 104 bytes. Keep test stores in `/tmp`.
+- In the App Sandbox, Application Support is inside
+  `~/Library/Containers/<bundle-id>/Data/`. The CLI is the same signed
+  binary, so it gets the same container and finds the socket. Keep the
+  bundle id short: the sandboxed socket path is about 60 bytes longer.
+- Agent permissions: a sandboxed app for other people lets the user set,
+  per area, what agents may do (off, read, draft, write). The router
+  checks it before `run` and returns `{"code":"denied"}` with the Settings
+  page to change it. Destructive commands and anything that leaves the Mac
+  need "write" and `--yes`.
 
 ## Commands
 

@@ -144,6 +144,17 @@ Do not take full-screen captures to check your app: they show the user's
 other windows. Capture your own window, or add a mode to the app that
 renders the state you want to see (prefilled text, an open sheet).
 
+## 5b. Sandbox (App Store apps)
+
+If `docs/BRIEF.md` says **Distribution: Mac App Store** and the change
+touches files, folders, network, other programs, or the agent CLI, run:
+
+```bash
+tools/sandbox-check.sh
+```
+
+Check: it prints `PASS sandbox check`. Fixes: [app-store.md](../../start/new-mac-app/app-store.md).
+
 ## 6. Commit
 
 When the build is clean and the snapshots look right, commit with a message

@@ -93,6 +93,20 @@ and path. To keep them across rebuilds:
   `~/Applications/<App>.app`).
 - No App Sandbox for apps that use Accessibility, event taps, or other
   apps' windows. The sandbox blocks them.
+
+## In the App Sandbox (Mac App Store)
+
+Works: global shortcuts (`RegisterEventHotKey`), menu bar items, panels,
+Spotlight (`CSSearchableIndex`), notifications, URL schemes,
+`SMAppService` login items, Shortcuts and App Intents, ScreenCaptureKit
+(with the Screen Recording prompt), the clipboard without posting keys,
+files and folders the user picks (security-scoped bookmarks).
+
+Does not work: Accessibility (`AXUIElement`), event taps, posting key
+events, `CFPreferences` of other apps, `killall`, `Process` with tools
+outside the app bundle, private APIs through `dlsym`. Check each feature of
+an App Store brief against this list before writing stories. Rules:
+[app-store.md](../../start/new-mac-app/app-store.md).
 - After an install, refresh Launch Services so the Dock shows the new icon:
   `lsregister -f -R -trusted /Applications/<App>.app` (the tool lives in
   `/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/`).

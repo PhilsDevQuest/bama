@@ -33,7 +33,7 @@ grep -rlI -e "__APP_NAME__" -e "__BUNDLE_ID__" "$dest" | while IFS= read -r f; d
 done
 # A different grep on PATH can find nothing, and then the loop does no work.
 [[ $(<"$dest/Package.swift") != *__APP_NAME__* ]] || { echo "could not replace the placeholders in $dest: check which grep is on PATH"; exit 1; }
-chmod +x "$dest/build.sh" "$dest/tools/make_icon.sh" "$dest/tools/icon_review.sh" "$dest/tools/grid-lint.sh" "$dest/tools/check-layout.swift" "$dest/tools/snap.sh" "$dest/tools/selftest.sh"
+chmod +x "$dest/build.sh" "$dest/tools/make_icon.sh" "$dest/tools/icon_review.sh" "$dest/tools/grid-lint.sh" "$dest/tools/check-layout.swift" "$dest/tools/snap.sh" "$dest/tools/selftest.sh" "$dest/tools/sandbox-check.sh" "$dest/tools/appstore.sh"
 
 cd "$dest"
 [[ -d .git ]] || git init -q

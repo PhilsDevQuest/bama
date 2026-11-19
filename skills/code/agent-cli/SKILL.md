@@ -133,7 +133,19 @@ under `mcpServers`, with the full path and `"args": ["mcp"]`. More in
 
 Check: `claude mcp list` shows the server as connected.
 
+## 8. App Store apps
+
+The sandboxed binary gets the app's container, so the socket and the
+commands work unchanged. Three things differ, all in
+[app-store.md](../../start/new-mac-app/app-store.md#agent-cli-and-mcp-in-the-sandbox):
+a Settings page shows the CLI path and the MCP lines to copy, because an
+App Store install cannot link `~/.local/bin`; a permission switch per area
+(off, read, draft, write) is checked before every command; and the app
+launch uses `NSWorkspace` if `/usr/bin/open` fails in the sandbox.
+
+Check: `tools/sandbox-check.sh` prints `PASS agent CLI reaches the sandboxed app`.
+
 Done when every command from step 1 runs through the CLI against the
 running app, `check-agent-cli.sh` prints `PASS agent CLI`, the app's repo
-has the agent skill from step 6, and a fresh Claude Code session can do a
-real task with it.
+has the agent skill from step 6, a fresh Claude Code session can do a
+real task with it, and an App Store app passes step 8.
