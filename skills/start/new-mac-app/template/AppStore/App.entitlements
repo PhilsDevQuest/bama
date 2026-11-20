@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- App Sandbox entitlements for __APP_NAME__. Used by ./build.sh --sandbox and tools/appstore.sh.
+<!-- App Sandbox entitlements for __APP_NAME__. Used by build.sh with the sandbox option and by tools/appstore.sh.
+     XML comments must not contain two hyphens in a row, or codesign cannot read this file.
      Add only what the brief needs. Every extra entitlement needs a reason in App Review.
      Recipes for each one: bama new-mac-app skill, app-store.md. -->
 <plist version="1.0"><dict>

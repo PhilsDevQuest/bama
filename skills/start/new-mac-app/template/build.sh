@@ -67,7 +67,14 @@ if [[ "$sandbox" == 1 ]]; then
   [[ -f "$here/AppStore/App.entitlements" ]] || { echo "no AppStore/App.entitlements"; exit 1; }
   sign_args+=(--options runtime --entitlements "$here/AppStore/App.entitlements")
 fi
-codesign "${sign_args[@]}" "$app" 2>&1 | grep -v "replacing existing signature" || true
+if ! sign_log=$(codesign "${sign_args[@]}" "$app" 2>&1); then
+  echo "$sign_log"; echo "codesign failed"; exit 1
+fi
+echo "$sign_log" | grep -v "replacing existing signature" || true
+# A sandboxed build must really carry the sandbox entitlement.
+if [[ "$sandbox" == 1 ]] && ! codesign -d --entitlements - "$app" 2>/dev/null | grep -q "com.apple.security.app-sandbox"; then
+  echo "build failed: --sandbox was set, but the app has no App Sandbox entitlement"; exit 1
+fi
 echo "installed $app (signed: ${identity}, sandbox: $([[ $sandbox == 1 ]] && echo on || echo off))"
 
 if [[ " $* " == *" --open "* ]]; then
