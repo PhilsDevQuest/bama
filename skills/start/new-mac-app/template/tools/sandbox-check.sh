@@ -37,7 +37,8 @@ else
 fi
 
 # The agent CLI: the sandboxed CLI must reach the sandboxed app over its socket.
-if ls -d "$here"/Sources/*/Agent >/dev/null 2>&1; then
+agent_dirs=("$here"/Sources/*/Agent(N))
+if (( ${#agent_dirs} )); then
   if $bin status --json >/dev/null 2>&1; then
     echo "PASS agent CLI reaches the sandboxed app"
   else

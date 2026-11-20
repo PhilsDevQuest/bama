@@ -29,6 +29,9 @@ enum Snapshot {
             IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep as CFString,
                                         IOPMAssertionLevel(kIOPMAssertionLevelOn), "Snapshots" as CFString, &awake)
             try? FileManager.default.createDirectory(atPath: dir, withIntermediateDirectories: true)
+            // When captures fall back, this line says whether the app itself lacks
+            // the permission or the app that started it (terminal, Claude).
+            print("SNAPSHOT screen recording allowed for this app: \(CGPreflightScreenCaptureAccess())")
             try? await Task.sleep(for: .seconds(1.5))
             for mode in ["light", "dark"] {
                 NSApp.appearance = NSAppearance(named: mode == "light" ? .aqua : .darkAqua)
@@ -75,6 +78,10 @@ enum Snapshot {
         // Active, like a window someone is using: real accent colors and focus rings.
         NSApp.activate()
         window.makeKeyAndOrderFront(nil)
+        // macOS does not let an app take the front while someone works in
+        // another one. Such a capture shows gray window buttons and dim
+        // controls, and does not count as reviewed.
+        if !NSApp.isActive { print("SNAPSHOT inactive \(path): another app was in front, run again") }
         let size = window.contentView?.bounds.size ?? .zero
         GridProbes.shared.write(to: path.replacingOccurrences(of: ".png", with: "-layout.json"), window: size)
         try? FileManager.default.removeItem(atPath: path)

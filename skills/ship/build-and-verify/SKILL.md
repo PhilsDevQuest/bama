@@ -51,6 +51,12 @@ files) and the saved window state first, then runs with sample data
 (`APP_SEED=1`). Without that, seed data goes stale, and one crashed run
 leaves a "reopen windows?" alert that hangs every later run.
 
+It starts the app with `open -W -n`, so the Screen Recording permission of
+the app counts, and writes the app's output to a log. It stops with FAIL in
+two cases: `fallback` (the app has no Screen Recording permission, ask the
+user to allow it) and `SNAPSHOT inactive` (another app was in front while a
+window was captured, run again and leave the Mac alone).
+
 Use `APP_SNAPSHOT_PAGES=today,inbox` to limit the pages. Add `settings` to
 include the Settings tabs.
 

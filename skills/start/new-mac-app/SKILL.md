@@ -86,6 +86,12 @@ binary in a real `.app` bundle. An agent can read and edit every file.
    tools/snap.sh                                                    # sample data, light and dark PNGs
    ```
 
+   The first `tools/snap.sh` needs Screen Recording for the app itself:
+   ask the user to turn on System Settings > Privacy & Security > Screen &
+   System Audio Recording > <AppName>. `snap.sh` starts the app with `open`,
+   so the app's own permission counts, not the terminal's. Check: the log
+   has no `fallback` line.
+
 6. If `docs/BRIEF.md` says **Distribution: Mac App Store**, read
    [app-store.md](app-store.md) now and run the sandboxed check once:
 

@@ -40,6 +40,16 @@ bin="$scratch/$config/$name"
 # swift build can report success while an edited file failed to compile. Catch that.
 stale=$(find "$here/Sources" -name '*.swift' -newer "$bin" | head -1)
 if [[ -n "$stale" ]]; then
+  # A branch switch writes files again without changing them. The build then
+  # has nothing to do, and the binary stays older than those files. Build once
+  # from scratch: a file that really fails to compile fails here too.
+  echo "binary is older than ${stale:t}: building from scratch"
+  swift package --package-path "$here" --scratch-path "$scratch" clean
+  swift build -c "$config" --package-path "$here" --scratch-path "$scratch" 2>&1 | grep -E "error|warning|Build complete" | grep -v "^\[" || true
+  [[ -x "$bin" ]] || { echo "build failed"; exit 1; }
+  stale=$(find "$here/Sources" -name '*.swift' -newer "$bin" | head -1)
+fi
+if [[ -n "$stale" ]]; then
   echo "build failed: binary is older than $stale"
   swift build -c $config --package-path "$here" --scratch-path "$scratch" 2>&1 | grep -E "error" | head -20
   exit 1
